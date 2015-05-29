@@ -7,9 +7,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        custom:childSize="44px"
-        custom:fromDegrees="270.0"
-        custom:toDegrees="360.0" />
+        custom:childSize="200px"
+        custom:fromDegrees="0.0"
+        custom:toDegrees="360.0"
+        />
 
     <FrameLayout
         android:id="@+id/control_layout"

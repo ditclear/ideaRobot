@@ -20,7 +20,7 @@ public class WelcomeActivity extends Activity{
             public void run() {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent();
-                intent.setClass(WelcomeActivity.this, MainActivity.class);
+                intent.setClass(WelcomeActivity.this, ToDoActivity.class);
                 WelcomeActivity.this.startActivity(intent);
                 WelcomeActivity.this.finish();
 

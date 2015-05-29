@@ -129,7 +129,7 @@ public class ArcLayout extends ViewGroup {
         final int radius = mExpanded ? mRadius : 0;
 
         final int childCount = getChildCount();
-        final float perDegrees = (mToDegrees - mFromDegrees) / (childCount - 1);
+        final float perDegrees = (mToDegrees - mFromDegrees) / (childCount-1);
 
         float degrees = mFromDegrees;
         for (int i = 0; i < childCount; i++) {
