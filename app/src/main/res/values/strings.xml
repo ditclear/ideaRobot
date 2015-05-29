@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">idear</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="send">发送</string>
+
+    <string-array name="welcome_tips">
+        <item>有什么想说的吗</item>
+        <item>近来一切可好</item>
+        <item>得不到的永远在躁动</item>
+        <item>nothing on you</item>
+        <item>light up the world</item>
+    </string-array>
+
+    <string name="title_activity_activity_welcome">Activity_welcome</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+
+</resources>
