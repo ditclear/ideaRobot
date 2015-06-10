@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import vienan.app.idearobot.materialMenu.Material;
 import com.capricorn.ArcMenu;
+import com.capricorn.RayLayout;
 import com.capricorn.RayMenu;
 
 
@@ -34,20 +35,46 @@ public class ToDoActivity extends ActionBarActivity {
             item.setImageResource(itemDrawables[i]);
 
             final int position = i;
-            menu.addItem(item, new ArcMenu.OnClickListener() {
+            if(i==0) {
+                menu.addItem(item, new ArcMenu.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            Intent intent = new Intent();
-                            intent.setClass(ToDoActivity.this, MainActivity.class);
-                            ToDoActivity.this.startActivity(intent);
-                            ToDoActivity.this.finish();
-                        }
-                    }, 800);
-                }
-            });// Add a menu item
+                    @Override
+                    public void onClick(View v) {
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                startActivity(new Intent(ToDoActivity.this, AsyncTaskTest.class));
+                            }
+                        }, 800);
+                    }
+                });
+            }else if(i==1){
+                menu.addItem(item, new ArcMenu.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                startActivity(new Intent(ToDoActivity.this,Material.class));
+                            }
+                        }, 800);
+                    }
+                });
+            }else {
+                menu.addItem(item, new ArcMenu.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                Intent intent = new Intent();
+                                intent.setClass(ToDoActivity.this, MainActivity.class);
+                                ToDoActivity.this.startActivity(intent);
+                                ToDoActivity.this.finish();
+                            }
+                        }, 800);
+                    }
+                });// Add a menu item
+            }
         }
     }
 

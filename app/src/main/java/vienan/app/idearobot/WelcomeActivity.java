@@ -22,6 +22,7 @@ public class WelcomeActivity extends Activity{
                 Intent intent = new Intent();
                 intent.setClass(WelcomeActivity.this, ToDoActivity.class);
                 WelcomeActivity.this.startActivity(intent);
+                overridePendingTransition(R.anim.zoom_in,R.anim.zoom_out);
                 WelcomeActivity.this.finish();
 
             }

@@ -9,12 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.capricorn.ArcMenu;
 
 import org.json.JSONException;
@@ -25,13 +28,12 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener,
+public class MainActivity extends ActionBarActivity implements RippleView.OnRippleCompleteListener,
        HttpGetDataListener,OnClickListener {
-    private SwipeRefreshLayout mSwipeLayout;
     private ListView lv;
     private List<ListData> lists;
     private EditText sendText;
-    private Button send_btn;
+    private RippleView rippleView;
     private String content_str;
     private MyAdapter adapter;
     private String[] welcome_array;
@@ -39,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements SwipeRefreshLayou
     private HttpData httpData;//声明异步请求对象
     private static final int[] ITEM_DRAWABLES = { R.drawable.composer_camera, R.drawable.composer_music,
             R.drawable.composer_place, R.drawable.composer_sleep, R.drawable.composer_thought, R.drawable.composer_with };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,41 +52,21 @@ public class MainActivity extends ActionBarActivity implements SwipeRefreshLayou
 
     private void initView() {
         lv= (ListView) findViewById(R.id.lv);
+        LayoutAnimationController lac = new LayoutAnimationController(
+                AnimationUtils.loadAnimation(this, R.anim.zoom_in));
+        lv.setLayoutAnimation(lac);
+        lv.startLayoutAnimation();
         sendText = (EditText) findViewById(R.id.sendText);
-        send_btn = (Button) findViewById(R.id.send_btn);
+        rippleView= (RippleView) findViewById(R.id.more2 );
         lists = new ArrayList<ListData>();
-        send_btn.setOnClickListener(this);
+        rippleView.setOnRippleCompleteListener(this);
         adapter = new MyAdapter(lists, this);
         lv.setAdapter(adapter);
         ListData listData;
         listData = new ListData(getRandomWelcomeTips(), ListData.RECEIVER,
                 getTime());
         lists.add(listData);
-        mSwipeLayout= (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-       /* ArcMenu arcMenu = (ArcMenu) findViewById(R.id.arc_menu);
-        initArcMenu(arcMenu, ITEM_DRAWABLES);*/
     }
-    /*private void initArcMenu(ArcMenu menu, int[] itemDrawables) {
-        final int itemCount = itemDrawables.length;
-        for (int i = 0; i < itemCount; i++) {
-            ImageView item = new ImageView(this);
-            item.setImageResource(itemDrawables[i]);
-
-            final int position = i;
-            menu.addItem(item, new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "position:" + position, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }*/
 
     private String getRandomWelcomeTips() {
         String welcome_tip = null;
@@ -94,37 +77,6 @@ public class MainActivity extends ActionBarActivity implements SwipeRefreshLayou
         return welcome_tip;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, 5000);
-    }
 
     @Override
     public void getDataUrl(String data) {
@@ -148,8 +100,22 @@ public class MainActivity extends ActionBarActivity implements SwipeRefreshLayou
             e.printStackTrace();
         }
     }
+    private String getTime() {
+        currentTime = System.currentTimeMillis();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        Date curDate = new Date();
+        String str = format.format(curDate);
+        if (currentTime - oldTime >= 500) {
+            oldTime = currentTime;
+            return str;
+        } else {
+            return "";
+        }
+
+    }
+
     @Override
-    public void onClick(View v) {
+    public void onComplete(RippleView rippleView) {
         getTime();
         content_str = sendText.getText().toString();
         sendText.setText("");
@@ -168,17 +134,9 @@ public class MainActivity extends ActionBarActivity implements SwipeRefreshLayou
                 "http://www.tuling123.com/openapi/api?key=e2109786d8d4593345fb3b75e65089c0&info="
                         + drop_h, this).execute();
     }
-    private String getTime() {
-        currentTime = System.currentTimeMillis();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
-        Date curDate = new Date();
-        String str = format.format(curDate);
-        if (currentTime - oldTime >= 500) {
-            oldTime = currentTime;
-            return str;
-        } else {
-            return "";
-        }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }

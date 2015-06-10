@@ -17,5 +17,7 @@
     <string name="title_activity_activity_welcome">Activity_welcome</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="title_activity_to_do">ToDoActivity</string>
+    <string name="title_activity_async_task_test">AsyncTask</string>
+    <string name="title_activity_material">material</string>
 
 </resources>
